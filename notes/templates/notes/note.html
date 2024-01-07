@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block page_title %}All Notes{% endblock page_title %}
+
+{% block content %}
+    <h2 class="text-purple-600 text-2xl font-bold my-4">Your Notes</h2>
+    <div class="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for note in notes %}
+            <div class="card bg-base-100 shadow-xl">
+                <div class="card-body">
+                    <h2 class="card-title">
+                    {{note.title}}
+                    <div class="badge badge-secondary">{% if note.status == 1 %}In Progress {% else %} Completed {% endif %}</div>
+                    </h2>
+                    <p>{{note.description}}</p>
+                    <div class="flex flex-wrap items-center gap-2">
+                        Tags:
+                        {% for tag in note.tags.all %}
+                        <p class="badge badge-primary badge-outline">{{tag}}</p>
+                    {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
