@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+{% block page_title %} {{title}} {% endblock page_title %}
+
+{% block content %}
+<div class="flex justify-center items-center gap-4 p-4">
+    <div class="w-1/2">
+        <img src="{% static "images/register.jpg" %}" alt="photo">
+    </div>
+    <div class="w-1/2">
+        <h2 class="text-center text-2xl font-semibold my-8">{{title}} To <a class="text-teal-700 font-semibold" href="{% url "home" %}">NOTEBOOK</a></h2>
+        <form method="post" novalidate>
+            {% csrf_token %}
+            <!-- {{form|crispy}} -->
+            {% for field in form %}
+                <p class="text-sm font-semibold uppercase py-1">{{field.label_tag}}</p>
+                <p class="w-full focus:border-1 focus:outline">{{field}}</p>
+                <p class="text-red-500 my-2 py-2">{{filed.errors|striptags}}</p>
+            {% endfor %}
+            <input class="inline-block font-medium text-base px-6 py-3 leading-none bg-teal-700 rounded text-white border-white hover:border-transparent hover:text-dark hover:bg-orange-700" type="submit" value="{{title}}">
+        </form>
+    </div>
+</div>
+{% endblock content %}
