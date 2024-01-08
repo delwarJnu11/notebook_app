@@ -8,5 +8,5 @@ class NoteForm(forms.ModelForm):
         fields = ['title', 'description', 'tags']
         widgets = {
             'title': forms.TextInput(attrs={'id': 'required', 'placeholder': 'Note title...'}),
-            'description': forms.TextInput(attrs={'id': 'required', 'placeholder': 'Note Description...'}),
+            'description': forms.Textarea(attrs={'id': 'required', 'placeholder': 'Note Description...'}),
         }
