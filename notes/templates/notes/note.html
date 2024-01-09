@@ -5,14 +5,31 @@
 
 {% block content %}
 
-    <h2 class="text-purple-600 text-2xl font-bold my-4">Your Notes</h2>
+    <div class="flex justify-between items-center">
+        <h2 class="text-purple-600 text-2xl font-bold my-4">Your Notes</h2>
+        {% if 'completed' not in request.path %}
+            <a href="{% url 'completed' %}" class="mx-2 inline-block font-medium text-sm px-6 py-3 leading-none bg-green-600 rounded text-white border-white hover:border-transparent hover:text-dark hover:bg-green-700 mt-4 lg:mt-0">View Completed Notes</a>
+        {% else %}
+            <a href="{% url 'notes' %}" class="mx-2 inline-block font-medium text-sm px-6 py-3 leading-none bg-[#D300FF] rounded text-white border-white hover:border-transparent hover:text-dark hover:bg-[#9d2bb4] mt-4 lg:mt-0">View In Progress Notes</a>
+        {% endif %}
+    </div>
     <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-4">
         {% for note in notes %}
             <div class="card bg-base-100 shadow-xl">
                 <div class="card-body">
-                    <div class="badge badge-secondary">{% if note.status == 1 %}In Progress {% else %} Completed {% endif %}</div>
-                    <h2 class="card-title flex justify-between items-center">
-                    {{note.title}}
+                    <div class="flex justify-between items-center py-1">
+                        <div class="badge {% if note.status == 1 %}badge-secondary {% else %} badge-success {% endif %}">{% if note.status == 1 %}In Progress {% else %} Completed {% endif %}</div>
+                        <div class="tooltip" data-tip="Mark as Complete">
+                            <a class="{% if note.status == 2 %}btn-disabled{% endif %}" href="{% url "complete" note.id %}">
+                                <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 64 64"
+                                style="fill:#40C057;">
+                                <path d="M 30 4 C 14.561 4 2 16.561 2 32 C 2 47.439 14.561 60 30 60 L 33 60 C 48.439 60 61 47.439 61 32 C 61 26.600951 59.460842 21.556431 56.802734 17.275391 L 62.039062 12.039062 L 59.210938 9.2109375 L 54.423828 13.998047 C 49.283425 7.890176 41.589024 4 33 4 L 30 4 z M 33 8 C 40.486401 8 47.18112 11.446946 51.585938 16.835938 L 33.375 35.046875 L 21.664062 23.335938 L 18.835938 26.164062 L 33.375 40.703125 L 53.882812 20.195312 C 55.862819 23.683904 57 27.710097 57 32 C 57 45.234 46.233 56 33 56 C 19.767 56 9 45.234 9 32 C 9 18.766 19.767 8 33 8 z"></path>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="flex justify-between items-center py-1">
+                        <h2 class="card-title {% if note.status == 2 %}line-through{% endif %}">{{note.title}}</h2>
                     <div class="tooltip" data-tip="Edit Note">
                         <a href="{% url "edit_note" note.id %}">
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="30" height="30" viewBox="0,0,256,256"
@@ -21,7 +38,11 @@
                             </svg>
                         </a>
                     </div>
-                    <div class="tooltip" data-tip="Delete Note">
+                    </div>
+                    
+                    <div class="flex justify-between py-1">
+                        <p class="pr-1">{{note.description}}</p>
+                        <div class="tooltip" data-tip="Delete Note">
                         <a  href="{% url "delete_note" note.id %}" >
                             <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" width="25" height="25" viewBox="0 0 50 50"
                             style="fill:#FF0000;">
@@ -29,10 +50,7 @@
                             </svg>
                         </a>
                     </div>
-                    
-                    </h2>
-                    
-                    <p>{{note.description}}</p>
+                    </div>
                     <div class="flex flex-wrap items-center gap-2">
                         Tags:
                         {% for tag in note.tags.all %}

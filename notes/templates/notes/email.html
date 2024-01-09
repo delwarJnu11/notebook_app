@@ -1,0 +1,8 @@
+<h4>Hello, {{user.first_name}} {{user.last_name}}</h4>
+{% if type == 'completed' %}
+    <p>Congratulations!!! your note has been  successfully completed. I hope this email finds you well. we are pleased to inform you that your hard work and dedication have paid off, and you have successfully completed your note on time. Your commitment to excellence and attention to detail have not gone unnoticed.</p>
+{% elif type == 'notify' %}
+    <p>We are inform you to complete your note. 24 hours left to your deadline to complete the note. Hope you will complete the note on time.</p>
+{% endif %}
+<p>Thanks for stay with us</p>
+<p>NOTEBOOK</p>

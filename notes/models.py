@@ -16,6 +16,7 @@ class Note(models.Model):
     tags = models.ManyToManyField(Tag)
     status = models.IntegerField(choices = STATUS, default= 1)
     created_on = models.DateTimeField(auto_now_add = True)
+    deadline = models.DateTimeField(blank = True, null = True)
     user = models.ForeignKey(User, related_name='users', on_delete = models.CASCADE)
 
     class Meta:
